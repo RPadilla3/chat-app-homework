@@ -6,28 +6,7 @@
     var userName;
 
     window.chat.listenForMessages(function messageHandler(data) {
-
-        $('.send-message')
-            .on('submit', function message(event) {
-                event.preventDefault();
-                $.ajax({
-                        url: '/chat',
-                        method: 'POST',
-                        data: {
-                            message: $('.message').val()
-                        }
-                        headers: {
-                            Authorization: userToken
-                        }
-                    })
-                    .done(function handleYes(success) {
-                        console.log('lit', success);
-                    })
-                    .fail(function handleNo(xhr) {
-                        console.log('nope', xhr);
-                    })
-            })
-
+      
     });
 
 
@@ -54,6 +33,26 @@
                 })
         });
 
-
+    $('.send-message')
+        .on('submit', function message(event) {
+            event.preventDefault();
+            $.ajax({
+                    url: '/chat',
+                    method: 'POST',
+                    data: JSON.stringify({
+                      message: $('.message').val()
+                    }),
+                    headers: {
+                        Authorization: userToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .done(function handleYes(success) {
+                    console.log('ya', success);
+                })
+                .fail(function handleNo(xhr) {
+                    console.log('nope', xhr);
+                });
+        });
 
 }());
