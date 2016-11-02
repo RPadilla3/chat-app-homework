@@ -4,11 +4,12 @@
     window.chat = window.chat || {};
     var userToken;
     var userName;
+    var userMessage;
 
     window.chat.listenForMessages(function messageHandler(data) {
-      
+        $('.messages')
+            .append('<p>' + data.message + '</p>');
     });
-
 
     $('.login')
         .on('submit', function login(event) {
@@ -40,7 +41,7 @@
                     url: '/chat',
                     method: 'POST',
                     data: JSON.stringify({
-                      message: $('.message').val()
+                        message: $('.message').val()
                     }),
                     headers: {
                         Authorization: userToken,
@@ -48,7 +49,7 @@
                     }
                 })
                 .done(function handleYes(success) {
-                    console.log('ya', success);
+                    userMessage = success.message;
                 })
                 .fail(function handleNo(xhr) {
                     console.log('nope', xhr);
